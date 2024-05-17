@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity(name = "tb_itens")
 public class Item {
 

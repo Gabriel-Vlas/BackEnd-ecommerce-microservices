@@ -1,7 +1,5 @@
 package com.ecommerce.produtos.api.model;
 
-import org.hibernate.annotations.DialectOverride.GeneratedColumn;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,22 +14,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-@Entity(name = "tb_produtos0")
+@Entity(name = "tb_produtos")
 public class Produto {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
     private String codigo;
-    
+
     @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String decricao;
+    private String descricao;
 
     @Column(nullable = false)
     private Double preco;
