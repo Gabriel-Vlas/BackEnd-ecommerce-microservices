@@ -1,4 +1,0 @@
-CREATE TABLE IF NOT EXISTS `tb_categorias` (
-    `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `nome` VARCHAR(255) NOT NULL
-);
