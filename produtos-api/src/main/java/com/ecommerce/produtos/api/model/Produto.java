@@ -36,21 +36,20 @@ public class Produto {
     private Double preco;
 
     @ManyToOne
-    @JoinColumn(name = "idCategoria", nullable = false)
+    @JoinColumn(name = "id_Categoria", nullable = false)
     private Categoria categoria;
 
-    public ProdutoDTO converterParaDTO(){
+    public ProdutoDTO converterParaDTO() {
         ProdutoDTO dto = new ProdutoDTO();
-        
+
         dto.setId(id);
         dto.setCodigo(codigo);
         dto.setNome(nome);
         dto.setDescricao(descricao);
         dto.setPreco(preco);
+
         dto.setCategoria(categoria.getNome());
 
         return dto;
     }
-
-
 }

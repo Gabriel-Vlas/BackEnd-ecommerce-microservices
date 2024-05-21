@@ -18,7 +18,10 @@ public class ProdutoService {
     }
 
 	public List<ProdutoDTO> obterListaProdutos() {
-		return produtoRepository.findAll().stream().map(p -> p.converterParaDTO()).collect(Collectors.toList());
+		return produtoRepository.findAll()
+            .stream()
+            .map(p -> p.converterParaDTO())
+            .collect(Collectors.toList());
 	}
 
     @Autowired

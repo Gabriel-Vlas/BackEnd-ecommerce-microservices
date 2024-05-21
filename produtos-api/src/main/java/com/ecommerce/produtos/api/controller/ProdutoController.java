@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping(value = "/produtos")
 public class ProdutoController {
 
-    @Autowired
-    private ProdutoService produtoService;
-
     @PostMapping
     public ResponseEntity<ProdutoDTO> criarProduto(@RequestBody Produto produto) {        
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.salvarProduto(produto));
@@ -33,6 +30,8 @@ public class ProdutoController {
     public ResponseEntity<List<ProdutoDTO>> listarProdutos(){
         return ResponseEntity.status(HttpStatus.OK).body(produtoService.obterListaProdutos());
     }    
-    
+
+    @Autowired
+    private ProdutoService produtoService;    
     
 }
