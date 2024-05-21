@@ -1,4 +1,4 @@
-package com.ecommerce.usuarios.api.dto;
+package com.ecommerce.compra.client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,7 +2,7 @@ package com.ecommerce.produtos.api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.produtos.api.dto.ProdutoDTO;
+import com.ecommerce.compra.client.dto.ProdutoDTO;
 import com.ecommerce.produtos.api.model.Produto;
 import com.ecommerce.produtos.api.service.ProdutoService;
 

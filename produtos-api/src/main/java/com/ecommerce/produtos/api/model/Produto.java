@@ -1,6 +1,6 @@
 package com.ecommerce.produtos.api.model;
 
-import com.ecommerce.produtos.api.dto.ProdutoDTO;
+import com.ecommerce.compra.client.dto.ProdutoDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

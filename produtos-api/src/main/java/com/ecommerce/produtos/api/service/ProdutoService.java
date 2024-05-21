@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.produtos.api.dto.ProdutoDTO;
+import com.ecommerce.compra.client.dto.ProdutoDTO;
 import com.ecommerce.produtos.api.model.Produto;
 import com.ecommerce.produtos.api.repository.ProdutoRepository;
 
