@@ -15,12 +15,12 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 
     Optional<Produto> findByCodigo(String codigo);
 
-    // @Query("SELECT p FROM Produto p JOIN p.categoria c WHERE c.nome = :nomeCategoria")
-    // Optional<List<Produto>> findByCategoria(@Param("nomeCategoria") String nomeCategoria);
+    @Query("SELECT p FROM Produto p JOIN p.categoria c WHERE c.nome = :nomeCategoria")
+    Optional<List<Produto>> findByCategoria(@Param("nomeCategoria") String nomeCategoria);
 
-    // @Query("SELECT p FROM Produto p WHERE p.categoria.nome = :nomeCategoria AND p.preco <= :preco")
-    // Optional<List<Produto>> findByCategoriaAndPrecoLessThan(@Param("nomeCategoria") String nomeCategoria, @Param("preco") Double preco);
+    @Query("SELECT p FROM Produto p WHERE p.categoria.nome = :nomeCategoria AND p.preco <= :preco")
+    Optional<List<Produto>> findByCategoriaAndPrecoLessThan(@Param("nomeCategoria") String nomeCategoria, @Param("preco") Double preco);
 
-    // @Query("SELECT p FROM Produto p WHERE p.preco BETWEEN :limiteInferior AND :limiteSuperior")
-    // Optional<List<Produto>> findByPrecoBetween(@Param("limiteInferior") Double limiteInferior, @Param("limiteSuperior") Double limiteSuperior);
+    @Query("SELECT p FROM Produto p WHERE p.preco BETWEEN :limiteInferior AND :limiteSuperior")
+    Optional<List<Produto>> findByPrecoBetween(@Param("limiteInferior") Double limiteInferior, @Param("limiteSuperior") Double limiteSuperior);
 }
