@@ -38,4 +38,6 @@ public class Compra {
     @OneToMany
     private List<Item> itens;
 
+    // converter DTO compra
+
 }

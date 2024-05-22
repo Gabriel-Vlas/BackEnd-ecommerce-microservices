@@ -28,4 +28,6 @@ public class Item {
     @Column(nullable = false)
     private Double preco;
 
+    // Converter DTO Item
+
 }
