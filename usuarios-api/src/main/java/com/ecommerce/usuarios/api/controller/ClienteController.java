@@ -65,6 +65,19 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
+
+    @GetMapping(value = "/email")
+    public ResponseEntity<ClienteDTO> obterClientePeloEmail(@RequestParam("email") String email) {
+
+        ClienteDTO cliente = clienteService.obterClientePeloEmail(email);
+
+        if (Objects.isNull(cliente)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(cliente);
+    }
+    
     
 
     @Autowired
