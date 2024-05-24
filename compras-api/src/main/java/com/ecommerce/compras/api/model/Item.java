@@ -1,5 +1,8 @@
 package com.ecommerce.compras.api.model;
 
+import com.ecommerce.compra.client.dto.ItemDTO;
+import com.ecommerce.compra.client.dto.ProdutoDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +32,15 @@ public class Item {
     private Double preco;
 
     // Converter DTO Item
+    public ItemDTO converterParaDTO(ProdutoDTO produto){
+        ItemDTO dto = new ItemDTO();
+
+        dto.setId(id);
+        dto.setProduto(produto);
+        dto.setQuantidade(quantidade);
+        dto.setSubTotal(preco * quantidade);
+
+        return dto;
+    }
 
 }

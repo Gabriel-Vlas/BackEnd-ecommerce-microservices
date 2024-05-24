@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ItemDTO {
 
-    private ProdutoDTO produtoDTO;
+    private Long id;
+    private ProdutoDTO produto;
     private Integer quantidade;
-    private Double preco;
+    private Double subTotal;
 
 }
