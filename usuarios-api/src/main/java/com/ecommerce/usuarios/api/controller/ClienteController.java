@@ -76,11 +76,8 @@ public class ClienteController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(cliente);
-    }
-    
-    
+    }    
 
     @Autowired
     private ClienteService clienteService;
-
 }
