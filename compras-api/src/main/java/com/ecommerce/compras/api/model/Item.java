@@ -1,7 +1,7 @@
 package com.ecommerce.compras.api.model;
 
-import com.ecommerce.compra.client.dto.ItemDTO;
-import com.ecommerce.compra.client.dto.ProdutoDTO;
+import com.ecommerce.compras.client.compra.ItemDTO;
+import com.ecommerce.compras.client.produto.ProdutoDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +22,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "codigo_produto")
     private String codigoProduto;
 
     @Column(nullable = false)
@@ -31,14 +31,13 @@ public class Item {
     @Column(nullable = false)
     private Double preco;
 
-    // Converter DTO Item
-    public ItemDTO converterParaDTO(ProdutoDTO produto){
+    public ItemDTO converterParaDTO(ProdutoDTO produto) {
         ItemDTO dto = new ItemDTO();
 
         dto.setId(id);
         dto.setProduto(produto);
         dto.setQuantidade(quantidade);
-        dto.setSubTotal(preco * quantidade);
+        dto.setSubtotal(preco * quantidade);
 
         return dto;
     }

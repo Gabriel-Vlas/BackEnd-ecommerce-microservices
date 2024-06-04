@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,25 +19,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecommerce.compra.client.dto.ClienteDTO;
+import com.ecommerce.compras.client.usuario.ClienteDTO;
 import com.ecommerce.usuarios.api.model.Cliente;
 import com.ecommerce.usuarios.api.service.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClienteController {
-
+    
     @PostMapping
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody Cliente cliente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.salvarCliente(cliente));
     }
 
     @GetMapping
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<List<ClienteDTO>> listarClientes() {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.obterListaClientes());
     }
 
     @GetMapping(value = "/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<ClienteDTO> obterDadosCliente(@PathVariable("id") Long id) {
         ClienteDTO cliente = clienteService.obterCliente(id);
 
@@ -49,26 +53,24 @@ public class ClienteController {
 
     @GetMapping(value = "/paginacao")
     public ResponseEntity<Page<ClienteDTO>> listarClientesPaginacao(
-        @PageableDefault(page = 1, size = 5, sort = "nome", direction = Direction.DESC) Pageable paginacao) {
+            @PageableDefault(page = 1, size = 5, sort = "nome", direction = Direction.DESC) Pageable paginacao) {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.obterPaginaClientes(paginacao));
     }
 
-    @GetMapping(value = "/nome/")
-    public ResponseEntity<List<ClienteDTO>> filtrarClientesPeloNome(@RequestParam("nome") String nome) {
-        
-       List<ClienteDTO> clientes = clienteService.obterClientePeloNome(nome);
-        
-        if(Objects.nonNull(clientes)){
+    @GetMapping(value = "/nome")
+    public ResponseEntity<List<ClienteDTO>> filtrarClientesPeloNome(
+            @RequestParam(name = "nome", required = false) String nome) {
+        List<ClienteDTO> clientes = clienteService.obterClientesPeloNome(nome);
+
+        if (Objects.nonNull(clientes)) {
             return ResponseEntity.status(HttpStatus.OK).body(clientes);
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
 
     @GetMapping(value = "/email")
     public ResponseEntity<ClienteDTO> obterClientePeloEmail(@RequestParam("email") String email) {
-
         ClienteDTO cliente = clienteService.obterClientePeloEmail(email);
 
         if (Objects.isNull(cliente)) {
@@ -76,8 +78,9 @@ public class ClienteController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(cliente);
-    }    
+    }
 
     @Autowired
     private ClienteService clienteService;
+
 }

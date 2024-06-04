@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ecommerce.compra.client.dto.ClienteDTO;
-import com.ecommerce.compra.client.dto.EnderecoDTO;
+import com.ecommerce.compras.client.usuario.ClienteDTO;
+import com.ecommerce.compras.client.usuario.EnderecoDTO;
 import com.ecommerce.usuarios.api.model.Cliente;
 import com.ecommerce.usuarios.api.model.Endereco;
 import com.ecommerce.usuarios.api.repository.ClienteRepository;
@@ -22,25 +22,20 @@ public class ClienteService {
     public ClienteDTO salvarCliente(Cliente cliente) {
         String senha = cliente.getSenha();
 
-        BCryptPasswordEncoder encoder = auth.getPasswordEncoder();
+        BCryptPasswordEncoder encoder = authorizationService.getPasswordEncoder();
 
         String senhaCriptografada = encoder.encode(senha);
 
         cliente.setSenha(senhaCriptografada);
 
-        EnderecoDTO enderecoDTO = enderecoService.buscarEnderecoPeloCep(cliente.getEndereco().getCep());
+        EnderecoDTO enderecoDTO = enderecoService.buscarEnderecoPeloCEP(cliente.getEndereco().getCep());
 
         Endereco endereco = cliente.getEndereco();
 
         endereco.setBairro(enderecoDTO.getBairro());
-        endereco.setCep(enderecoDTO.getCep());
         endereco.setCidade(enderecoDTO.getLocalidade());
-        endereco.setComplemento(cliente.getEndereco().getComplemento());
         endereco.setLogradouro(enderecoDTO.getLogradouro());
-        endereco.setNumero(cliente.getEndereco().getNumero());
         endereco.setUf(enderecoDTO.getUf());
-
-        cliente.setEndereco(endereco);
 
         return clienteRepository.save(cliente).converterParaDTO();
     }
@@ -66,35 +61,36 @@ public class ClienteService {
         return null;
     }
 
-    public List<ClienteDTO> obterClientePeloNome(String nome){
-        
-        Optional<List<Cliente>> clientes = clienteRepository.findByNomeLike(nome+"%");
+    public List<ClienteDTO> obterClientesPeloNome(String nome) {
+        Optional<List<Cliente>> clientes = clienteRepository.findByNomeLike(nome + "%");
 
-        if(clientes.isPresent()){
-            return clienteRepository.findByNomeLike(nome+"%")
-            .get()
-            .stream()
-            .map(c -> c.converterParaDTO())
-            .collect(Collectors.toList());
+        if (clientes.isPresent()) {
+            return clientes.get()
+                    .stream()
+                    .map(c -> c.converterParaDTO())
+                    .collect(Collectors.toList());
         }
 
         return null;
-
     }
 
-    public ClienteDTO obterClientePeloEmail(String email){
+    public ClienteDTO obterClientePeloEmail(String email) {
         Optional<Cliente> cliente = clienteRepository.findByEmail(email);
-        if(cliente.isPresent()){
+
+        if (cliente.isPresent()) {
             return cliente.get().converterParaDTO();
         }
+
         return null;
     }
 
-    public Cliente obterClientePeloCpf(String cpf){
+    public Cliente obterClientePeloCpf(String cpf) {
         Optional<Cliente> cliente = clienteRepository.findByCpf(cpf);
-        if(cliente.isPresent()){
+
+        if (cliente.isPresent()) {
             return cliente.get();
         }
+
         return null;
     }
 
@@ -105,6 +101,6 @@ public class ClienteService {
     private EnderecoService enderecoService;
 
     @Autowired
-    private AuthorizationService auth;
+    private AuthorizationService authorizationService;
 
 }

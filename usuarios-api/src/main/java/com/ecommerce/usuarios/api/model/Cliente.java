@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ecommerce.compra.client.dto.ClienteDTO;
+import com.ecommerce.compras.client.usuario.ClienteDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "tb_clientes")
-public class Cliente implements UserDetails{
+public class Cliente implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,14 +51,14 @@ public class Cliente implements UserDetails{
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
+    @Embedded
+    private Endereco endereco;
+
     @Column(nullable = false)
     private boolean administrador;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "usuario_externo")
     private boolean usuarioExterno;
-
-    @Embedded
-    private Endereco endereco;
 
     public ClienteDTO converterParaDTO() {
         ClienteDTO dto = new ClienteDTO();
@@ -86,10 +86,11 @@ public class Cliente implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (administrador) {
+        if (this.administrador) {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-        if (usuarioExterno) {
+
+        if (this.usuarioExterno) {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
